@@ -14,7 +14,6 @@ app.get('/', (req, res) => {
   res.send("Welcome to budget-planner")
 })
 
-
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
 
