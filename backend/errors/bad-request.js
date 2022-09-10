@@ -4,7 +4,7 @@ const CustomError = require('./custom-error')
 class BadRequestError extends CustomError {
   constructor(errorMessage) {
     super(errorMessage)
-    this.StatusCodes = StatusCodes.BAD_REQUEST
+    this.StatusCode = StatusCodes.BAD_REQUEST
   }
 }
 
