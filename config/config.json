@@ -1,0 +1,18 @@
+{
+  "development": {
+    "username": "root",
+    "password": "root",
+    "database": "budget-planner",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "AI45qyP0PnVA4MeX4IjM",
+    "database": "budget-planner",
+    "host": "containers-us-west-18.railway.app",
+    "port": 7332,
+    "dialect": "mysql"
+  }
+}
