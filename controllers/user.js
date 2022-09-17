@@ -19,32 +19,7 @@ const addUser = async (req, res) => {
   res.status(StatusCodes.CREATED).json(user.id)
 }
 
-const registerUser = async (req, res) => {
-  const user = req.body
-  console.log("user -> ", user);
-
-  // validating user
-
-  // check if email exist
-  const findEmail = await db.User.findOne({
-    where: {
-      email: user.email
-    }
-  });
-
-  if (findEmail) {
-    throw new CustomError.BadRequestError("Email already exist")
-  }
-
-
-  // add/register user
-  const newUser = await db.User.create(user)
-  console.log(newUser);
-  res.status(StatusCodes.CREATED).json(user.id)
-}
-
 
 module.exports = {
-  registerUser,
   addUser,
 }
