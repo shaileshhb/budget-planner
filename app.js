@@ -13,11 +13,11 @@ const errorHandlerMiddleware = require('./middleware/error-handler')
 
 app.use(express.json())
 
-app.get('/', (req, res) => {
+app.post('/', (req, res) => {
   res.send("Welcome to budget-planner")
 })
 
-app.use('/api/v1', userRouter)
+app.use('/api/v1/budget-planner', userRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
