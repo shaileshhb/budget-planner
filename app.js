@@ -17,6 +17,10 @@ app.post('/', (req, res) => {
   res.send("Welcome to budget-planner")
 })
 
+app.get('/', (req, res) => {
+  res.send("Welcome to budget-planner")
+})
+
 app.use('/api/v1/budget-planner', userRouter)
 
 app.use(notFoundMiddleware)
