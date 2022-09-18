@@ -13,10 +13,6 @@ const errorHandlerMiddleware = require('./middleware/error-handler')
 
 app.use(express.json())
 
-app.post('/', (req, res) => {
-  res.send("Welcome to budget-planner")
-})
-
 app.get('/', (req, res) => {
   res.send("Welcome to budget-planner")
 })
