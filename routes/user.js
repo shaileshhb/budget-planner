@@ -5,7 +5,7 @@ const { registerUser, login } = require('../controllers/authentication')
 
 router.post("/", (req, res) => {
   console.log(" at api/v1 get request");
-  res.send("Received req", req.baseUrl)
+  res.status(200).send("<h1>Test...</h1>")
 })
 
 router.post('/register', registerUser)
