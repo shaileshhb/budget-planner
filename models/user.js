@@ -1,4 +1,7 @@
-'use strict';
+// 'use strict';
+
+const { v4 } = require('uuid');
+
 const {
   Model
 } = require('sequelize');
@@ -14,14 +17,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
+    name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'User',
     paranoid: true,
+    underscored: true,
   });
+
+  User.beforeCreate(user => user.id = v4());
+
   return User;
 };
