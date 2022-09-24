@@ -3,68 +3,38 @@ const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors');
 const verifyEmailTemplate = require('../email/template/verifyEmail')
 const sendMail = require("../email/email")
-const { 
-  generateJWT, 
-  hashPassword, 
-  comparePassword, 
+const {
+  generateJWT,
+  hashPassword,
+  comparePassword,
   createUserPayload,
-  encryption, 
+  encryption,
   decryption,
- } = require("../security")
+} = require("../security")
 
 const registerUser = async (req, res) => {
 
+  const transaction = await db.sequelize.transaction();
+
   try {
+
     const user = req.body
 
-    // check if email exist
-    const findEmail = await db.User.findOne({
-      where: {
-        email: user.email
-      }
-    })
+    await validateUser(user)
 
-    // check if username exist
-    const findUsername = await db.User.findOne({
-      where: {
-        username: user.username
-      }
-    })
-  
-    if (findEmail) {
-      throw new CustomError.BadRequestError("Email already exist")
-    }
-
-    if (findUsername) {
-      throw new CustomError.BadRequestError("Username already exist")
-    }
-  
     user.password = await hashPassword(user.password)
     console.log(user.password);
-  
+
     // add/register user
-    const newUser = await db.User.create(user)
+    const newUser = await db.User.create(user, { transaction: transaction })
 
     const payload = createUserPayload(newUser)
-        
-    // send verfication email to user
-    const cipherText = encryption(payload.id)
-    let validTime = new Date().setHours(new Date().getHours() + 3)
+    await transaction.commit()
 
-    const verificationLink = auth.Conf.BaseURL + "/api/v1/budget-planner/verify-email?k=" + base64.URLEncoding.EncodeToString(cipherText)
-    verificationLink += "&t=" + base64.URLEncoding.EncodeToString(new Date(formatDt).toISOString())
-  
-    const message = verifyEmailTemplate(user.name, verificationLink)
-    const emailContent = {
-      ReceiverEmail: user.email,
-      Subject:       "Subject: Verfiy Email Address \n",
-      Message:       message,
-    }
-
-    await sendMail(emailContent)
+    await sendVerificationMail(payload)
 
     const token = generateJWT({ payload: payload })
-    
+
     res.status(StatusCodes.CREATED).json({
       id: newUser.id,
       name: user.name,
@@ -73,9 +43,58 @@ const registerUser = async (req, res) => {
 
   } catch (err) {
     console.log(err);
+    await transaction.rollback()
+
     throw new CustomError.BadRequestError(err)
   }
 
+}
+
+const verifyUser = async (req, res) => {
+  const { k } = req.query
+
+  if (!k) {
+    throw new CustomError.BadRequestError("Invalid link.")
+  }
+
+  const decodedCipherText = Buffer.from(k, 'base64').toString('utf8')
+  const userID = decryption(decodedCipherText)
+
+  const transaction = await db.sequelize.transaction()
+
+  try {
+
+    // check if userID exist
+    const findUser = await db.User.findOne({
+      where: {
+        id: userID
+      }
+    })
+
+    if (!findUser) {
+      throw new CustomError.BadRequestError("Invalid link.")
+    }
+
+    const user = await db.User.update({ isVerified: true }, {
+      where: {
+        id: userID
+      }
+    })
+
+    console.log("userid -> ", userID);
+    console.log("__dirname -> ", __dirname);
+
+    await transaction.commit()
+
+    res.sendFile('views/verified.html', { root: __dirname })
+
+  } catch (err) {
+    console.error(err);
+
+    await transaction.rollback()
+
+    throw new CustomError.BadRequestError(err)
+  }
 }
 
 const login = async (req, res) => {
@@ -110,8 +129,60 @@ const login = async (req, res) => {
   })
 }
 
+const sendVerificationMail = async (payload) => {
+
+  // send verfication email to user
+  let validTime = new Date().setHours(new Date().getHours() + 1)
+
+  const encodedCipher = Buffer.from(encryption(payload.id), 'utf8').toString('base64')
+
+  const verificationLink = process.env.BASE_URL + "/api/v1/budget-planner/verify-email?k=" + encodedCipher
+
+  // console.log("verificationLink -> ", verificationLink);
+
+  const message = verifyEmailTemplate(payload.name, verificationLink)
+  const emailContent = {
+    recevierEmail: payload.email,
+    subject: "Verfiy Email Address \n",
+    message: message,
+  }
+
+  await sendMail(emailContent)
+}
+
+const validateUser = async (user) => {
+
+  if (!user.email) {
+    throw new CustomError.BadRequestError("Email must be specified")
+  }
+
+  // check if email exist
+  const findEmail = await db.User.findOne({
+    where: {
+      email: user.email
+    }
+  })
+
+  // check if username exist
+  const findUsername = await db.User.findOne({
+    where: {
+      username: user.username
+    }
+  })
+
+  if (findEmail) {
+    throw new CustomError.BadRequestError("Email already exist")
+  }
+
+  if (findUsername) {
+    throw new CustomError.BadRequestError("Username already exist")
+  }
+
+}
+
 
 module.exports = {
   registerUser,
+  verifyUser,
   login,
 }
