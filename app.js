@@ -5,7 +5,8 @@ const app = express()
 const sequelize = require('./db/connect')
 
 // routers
-const userRouter = require('./routes/user');
+const authRouter = require('./routes/auth.router');
+const userRouter = require('./routes/user.router');
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found')
@@ -17,7 +18,7 @@ app.get('/', (req, res) => {
   res.send("Welcome to budget-planner")
 })
 
-app.use('/api/v1', userRouter)
+app.use('/api/v1/budget-planner', authRouter, userRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)

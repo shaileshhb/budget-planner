@@ -18,13 +18,20 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init({
     name: DataTypes.STRING,
+    username: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
+    dateOfBirth: DataTypes.DATEONLY,
+    gender: DataTypes.STRING,
+    contact: DataTypes.STRING,
+    isVerified: DataTypes.BOOLEAN,
+    profileImage: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'User',
     paranoid: true,
-    underscored: true,
+    tableName: 'users',
+    // underscored: true,
   });
 
   User.beforeCreate(user => user.id = v4());
