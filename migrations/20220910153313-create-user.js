@@ -8,15 +8,15 @@ module.exports = {
         allowNull: false,
         // defaultValue: Sequelize.UUIDV4,
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      deleted_at: {
+      deletedAt: {
         allowNull: true,
         type: Sequelize.DATE
       },
@@ -24,14 +24,37 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      username: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       email: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          is: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+        }
       },
       password: {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      dateOfBirth: {
+        type: Sequelize.STRING
+      },
+      contact: {
+        type: Sequelize.STRING
+      },
+      gender: {
+        type: Sequelize.STRING
+      },
+      profileImage: {
+        type: Sequelize.STRING
+      },
+      isVerified: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      }
     });
   },
   async down(queryInterface, Sequelize) {
