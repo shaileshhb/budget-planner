@@ -5,8 +5,8 @@ const app = express()
 const sequelize = require('./db/connect')
 
 // routers
-const authRouter = require('./routes/auth.router');
-const userRouter = require('./routes/user.router');
+const authRouter = require('./user/routes/auth.router');
+const userRouter = require('./user/routes/user.router');
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found')
@@ -29,7 +29,7 @@ const PORT = process.env.PORT || 3000
 const startApp = async () => {
   try {
     await sequelize.authenticate();
-    console.log('DB Connection has been established successfully.');
+    console.log('DB connected successfully.');
     app.listen(PORT, console.log(`Server started at port ${PORT}`))
   } catch (err) {
     console.error(err);

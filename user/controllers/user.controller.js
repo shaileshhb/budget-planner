@@ -1,6 +1,6 @@
-const db = require("../models/index")
+const db = require("../../models/index")
 const { StatusCodes } = require('http-status-codes')
-const CustomError = require('../errors');
+const CustomError = require('../../errors');
 
 const addUser = async (req, res) => {
   // const user = await db.User.build({

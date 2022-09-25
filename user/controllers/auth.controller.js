@@ -1,8 +1,8 @@
-const db = require("../models/index")
+const db = require("../../models/index")
 const { StatusCodes } = require('http-status-codes')
-const CustomError = require('../errors');
-const verifyEmailTemplate = require('../email/template/verifyEmail')
-const sendMail = require("../email/email")
+const CustomError = require('../../errors');
+const verifyEmailTemplate = require('../../email/template/verifyEmail')
+const sendMail = require("../../email/email")
 const {
   generateJWT,
   hashPassword,
@@ -10,7 +10,7 @@ const {
   createUserPayload,
   encryption,
   decryption,
-} = require("../security")
+} = require("../../security")
 
 const registerUser = async (req, res) => {
 
