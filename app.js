@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/v1/budget-planner', authRouter)
-// app.use('/api/v1/budget-planner', userRouter)
+app.use('/api/v1/budget-planner', userRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)

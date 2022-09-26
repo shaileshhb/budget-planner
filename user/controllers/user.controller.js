@@ -2,24 +2,35 @@ const db = require("../../models/index")
 const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../../errors');
 
-const addUser = async (req, res) => {
-  // const user = await db.User.build({
-  //   firstName: "firstName",
-  //   lastName: "lastName",
-  //   email: "lastName@asasd.asd"
-  // })
-  // user.save()
+const getUser = async (req, res) => {
+  const transaction = await db.sequelize.transaction();
 
-  const user = await db.User.create({
-    firstName: "shailesh",
-    lastName: "b",
-    email: "shaileshb@gmail.com"
-  })
+  try {
+    const userID = req.params.userID
 
-  res.status(StatusCodes.CREATED).json(user.id)
+    console.log("userID -> ", userID);
+
+    const user = await db.User.findOne({
+      where: {
+        id: userID
+      }
+    })
+
+    if (!user) {
+      throw new CustomError.BadRequestError(err)
+    }
+
+    res.status(StatusCodes.OK).json(user)
+
+  } catch (err) {
+    console.error(err);
+
+    await transaction.rollback()
+    throw new CustomError.BadRequestError(err)
+  }
+
 }
 
-
 module.exports = {
-  addUser,
+  getUser,
 }
