@@ -8,9 +8,7 @@ const getUser = async (req, res) => {
   try {
     const userID = req.params.userID
 
-    console.log("userID -> ", userID);
-
-    const user = await db.User.findOne({
+    const user = await db.user.findOne({
       where: {
         id: userID
       }

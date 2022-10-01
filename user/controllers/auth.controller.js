@@ -26,7 +26,7 @@ const registerUser = async (req, res) => {
     console.log(user.password);
 
     // add/register user
-    const newUser = await db.User.create(user, { transaction: transaction })
+    const newUser = await db.user.create(user, { transaction: transaction })
 
     const payload = createUserPayload(newUser)
     await transaction.commit()
@@ -65,7 +65,7 @@ const verifyUser = async (req, res) => {
   try {
 
     // check if userID exist
-    const findUser = await db.User.findOne({
+    const findUser = await db.user.findOne({
       where: {
         id: userID
       }
@@ -75,7 +75,7 @@ const verifyUser = async (req, res) => {
       throw new CustomError.BadRequestError("Invalid link.")
     }
 
-    const user = await db.User.update({ isVerified: true }, {
+    const user = await db.user.update({ isVerified: true }, {
       where: {
         id: userID
       }
@@ -104,7 +104,7 @@ const login = async (req, res) => {
     throw new CustomError.BadRequestError("Email or password not specified")
   }
 
-  const user = await db.User.findOne({
+  const user = await db.user.findOne({
     where: {
       email: email
     }
@@ -157,14 +157,14 @@ const validateUser = async (user) => {
   }
 
   // check if email exist
-  const findEmail = await db.User.findOne({
+  const findEmail = await db.user.findOne({
     where: {
       email: user.email
     }
   })
 
   // check if username exist
-  const findUsername = await db.User.findOne({
+  const findUsername = await db.user.findOne({
     where: {
       username: user.username
     }

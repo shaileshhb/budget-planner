@@ -18,7 +18,7 @@ SEQUELIZE
   
   - CREATING MODELS
     - command
-      - npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
+      - npx sequelize-cli model:generate --name user --attributes firstName:string,lastName:string,email:string
     - Use model:generate command. This command requires two options:
       - name: the name of the model;
       - attributes: the list of model attributes
