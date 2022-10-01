@@ -10,6 +10,17 @@ const updateUser = async (req, res) => {
     const user = req.body
     user.id = req.params.userID
 
+    // check if email exist
+    const findUser = await db.user.findOne({
+      where: {
+        id: user.id,
+      }
+    })
+
+    if (!findUser) {
+      throw new CustomError.BadRequestError("user not found")
+    }
+
     await validateUser(user)
 
     await db.user.update(user, {
@@ -60,7 +71,11 @@ const getUser = async (req, res) => {
 const validateUser = async (user) => {
 
   if (!user.email) {
-    throw new CustomError.BadRequestError("Email must be specified")
+    throw new CustomError.BadRequestError("email must be specified")
+  }
+
+  if (!user.username) {
+    throw new CustomError.BadRequestError("username must be specified")
   }
 
   // check if email exist

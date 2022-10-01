@@ -156,6 +156,10 @@ const validateUser = async (user) => {
     throw new CustomError.BadRequestError("Email must be specified")
   }
 
+  if (!user.username) {
+    throw new CustomError.BadRequestError("username must be specified")
+  }
+
   // check if email exist
   const findEmail = await db.user.findOne({
     where: {
