@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'envelop',
+    paranoid: true,
   });
 
   envelop.beforeCreate(enve => enve.id = v4());

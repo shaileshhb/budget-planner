@@ -30,6 +30,7 @@ const updateUser = async (req, res) => {
       transaction: transaction,
     })
 
+    await transaction.commit()
     res.status(StatusCodes.ACCEPTED).json(null)
 
   } catch (err) {
@@ -57,6 +58,7 @@ const getUser = async (req, res) => {
       throw new CustomError.BadRequestError(err)
     }
 
+    await transaction.commit()
     res.status(StatusCodes.OK).json(user)
 
   } catch (err) {

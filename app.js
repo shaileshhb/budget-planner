@@ -8,6 +8,7 @@ const cors = require('cors');
 // routers
 const authRouter = require('./user/routes/auth.router');
 const userRouter = require('./user/routes/user.router');
+const envelopRouter = require('./envelop/routes/envelop.router')
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found')
@@ -20,8 +21,8 @@ app.get('/', (req, res) => {
   res.send("Welcome to budget-planner")
 })
 
-app.use('/api/v1/budget-planner', authRouter)
-app.use('/api/v1/budget-planner', userRouter)
+app.use('/api/v1/budget-planner', authRouter, userRouter, envelopRouter)
+// app.use('/api/v1/budget-planner', userRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
