@@ -98,15 +98,15 @@ const verifyUser = async (req, res) => {
 }
 
 const login = async (req, res) => {
-  const { email, password } = req.body
+  const { username, password } = req.body
 
-  if (!email || !password) {
+  if (!username || !password) {
     throw new CustomError.BadRequestError("Email or password not specified")
   }
 
   const user = await db.user.findOne({
     where: {
-      email: email
+      username: username
     }
   })
 
@@ -124,7 +124,8 @@ const login = async (req, res) => {
 
   res.status(StatusCodes.CREATED).json({
     id: user.id,
-    name: user.firstName + " " + user.lastName,
+    name: user.name,
+    isVerified: user.isVerified,
     token: token
   })
 }

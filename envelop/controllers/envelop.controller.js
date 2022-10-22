@@ -8,6 +8,10 @@ const addEnvelop = async (req, res) => {
   try {
     const userId = req.params.userID
     const userEnvelop = req.body
+    
+    if (userEnvelop.amount <= 0) {
+      throw new CustomError.BadRequestError("Amount must be greater than 0.")
+    }
 
     userEnvelop.userId = userId
 
@@ -47,6 +51,10 @@ const updateEnvelop = async (req, res) => {
     const userId = req.params.userID
     const envelopId = req.params.envelopID
     const userEnvelop = req.body
+
+    if (userEnvelop.amount <= 0) {
+      throw new CustomError.BadRequestError("Amount must be greater than 0.")
+    }
 
     userEnvelop.userId = userId
 

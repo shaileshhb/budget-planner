@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   envelop.init({
     name: DataTypes.STRING,
     userId: DataTypes.UUID,
+    amount: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'envelop',
