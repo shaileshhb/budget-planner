@@ -1,4 +1,4 @@
-// 'use strict';
+'use strict';
 
 const { v4 } = require('uuid');
 
@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       user.hasMany(models.envelop, { foreignKey: 'userId' })
+      user.hasMany(models.spending, { foreignKey: 'userId' })
     }
   }
   user.init({
