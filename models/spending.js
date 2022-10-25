@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      spending.belongsTo(models.envelop)
     }
   }
   spending.init({

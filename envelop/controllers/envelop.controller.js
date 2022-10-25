@@ -8,7 +8,7 @@ const addEnvelop = async (req, res) => {
   try {
     const userId = req.params.userID
     const userEnvelop = req.body
-    
+
     if (userEnvelop.amount <= 0) {
       throw new CustomError.BadRequestError("Amount must be greater than 0.")
     }
@@ -135,13 +135,28 @@ const getEnvelops = async (req, res) => {
 
   try {
     const query = req.query
+    console.log("query is -> ");
     console.log(query);
+    const currentMonth = new Date().getMonth() + 1
+    console.log(currentMonth);
+
+    // var fromMonth = (fromDateMonth.getMonth()+ 1) < 10 ? '0' + (fromDateMonth.getMonth()+1) : (fromDateMonth.getMonth()+1);
 
     const userEnvelops = await db.envelop.findAll({
       where: query,
       order: [
         ['createdAt', 'ASC']
-      ]
+      ],
+      include: [{
+        model: db.spending,
+        as: 'spendings',
+        required: false,
+        where: {
+          date: {
+            $and: db.sequelize.where(db.sequelize.fn("month", db.sequelize.col("date")), currentMonth)
+          }
+        }
+      }]
     })
 
     await transaction.commit()

@@ -15,9 +15,11 @@ const addSpending = async (req, res) => {
 
     await validateSpending(spending)
 
-    if (spending.date === "") {
-      spending.date = new Date().toISOString()
+    if (!spending.date || spending.date === "") {
+      spending.date = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate()
     }
+
+    console.log("date -> ", spending.date);
 
     await db.spending.create(spending, { transaction: transaction })
     await transaction.commit()
