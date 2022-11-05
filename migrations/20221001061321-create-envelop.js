@@ -30,19 +30,13 @@ module.exports = {
       userId: {
         type: Sequelize.UUID,
         allowNull: false,
+        references: {
+          model: "users",
+          key: "id"
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
       },
-    });
-
-    await queryInterface.addConstraint('envelops', {
-      type: 'FOREIGN KEY',
-      name: 'envelops_userId_users_id_foreign',
-      fields: ['userId'],
-      references: { //Required field
-        table: 'users',
-        field: 'id'
-      },
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT'
     });
 
   },

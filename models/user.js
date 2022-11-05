@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       user.hasMany(models.envelop, { foreignKey: 'userId' })
       user.hasMany(models.spending, { foreignKey: 'userId' })
+      user.hasMany(models.userAccount, { foreignKey: 'userId' })
     }
   }
   user.init({
@@ -33,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'user',
     paranoid: true,
-    // tableName: 'users',
+    tableName: 'users',
     // underscored: true,
   });
 
