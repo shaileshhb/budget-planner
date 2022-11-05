@@ -70,8 +70,9 @@ const updateEnvelop = async (req, res) => {
       throw new CustomError.BadRequestError("Envelop not found")
     }
 
-    await doesEnvelopNameExist(userEnvelop.name)
+    userEnvelop.id = envelopId
 
+    await doesEnvelopNameExist(userEnvelop.name)
 
     await db.envelop.update(userEnvelop, {
       where: {
@@ -135,8 +136,7 @@ const getEnvelops = async (req, res) => {
 
   try {
     const query = req.query
-    console.log("query is -> ");
-    console.log(query);
+    console.log("query is -> ", query);
     const currentMonth = new Date().getMonth() + 1
     console.log(currentMonth);
 

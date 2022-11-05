@@ -17,12 +17,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   userAccount.init({
+    name: DataTypes.STRING,
     amount: DataTypes.DECIMAL,
     userId: DataTypes.UUID
   }, {
     sequelize,
     modelName: 'userAccount',
-    tableName: 'user_accounts',
+    tableName: 'useraccounts',
     paranoid: true,
   });
 
