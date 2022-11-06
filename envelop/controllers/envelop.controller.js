@@ -16,6 +16,7 @@ const addEnvelop = async (req, res) => {
     userEnvelop.userId = userId
 
     await doesUserExist(userId)
+    await doesUserSalaryExist(userId, userEnvelop.salaryId)
 
     const userEnvelopCount = await db.envelop.count({
       where: {
@@ -59,6 +60,7 @@ const updateEnvelop = async (req, res) => {
     userEnvelop.userId = userId
 
     await doesUserExist(userId)
+    await doesUserSalaryExist(userId, userEnvelop.salaryId)
 
     const findEnvelop = await db.envelop.findOne({
       where: {
@@ -175,6 +177,19 @@ const doesUserExist = async (userId) => {
   const findUser = await db.user.findOne({
     where: {
       id: userId,
+    }
+  })
+
+  if (!findUser) {
+    throw new CustomError.BadRequestError("user not found")
+  }
+}
+
+const doesUserSalaryExist = async (userId, salaryId) => {
+  const findUser = await db.userSalary.findOne({
+    where: {
+      id: salaryId,
+      userId: userId,
     }
   })
 
