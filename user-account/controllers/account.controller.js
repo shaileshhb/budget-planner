@@ -6,7 +6,7 @@ const addUserAccount = async (req, res) => {
   const transaction = await db.sequelize.transaction();
 
   try {
-    const userId = req.params.userID
+    const userId = req.params.userId
     const account = req.body
 
     account.userId = userId
@@ -46,8 +46,8 @@ const updateUserAccount = async (req, res) => {
   const transaction = await db.sequelize.transaction();
 
   try {
-    const userId = req.params.userID
-    const accountId = req.params.accountID
+    const userId = req.params.userId
+    const accountId = req.params.accountId
     const account = req.body
 
     account.userId = userId
@@ -68,6 +68,7 @@ const updateUserAccount = async (req, res) => {
     if (!findAccount) {
       throw new CustomError.BadRequestError("Account not found")
     }
+
     await db.userAccount.update(account, {
       where: {
         id: accountId
@@ -91,7 +92,7 @@ const deleteUserAccount = async (req, res) => {
   const transaction = await db.sequelize.transaction();
 
   try {
-    const userId = req.params.userID
+    const userId = req.params.userId
     const accountId = req.params.accountId
 
     await doesUserExist(userId)
