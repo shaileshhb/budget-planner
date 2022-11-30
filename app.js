@@ -3,23 +3,29 @@ require('express-async-errors')
 const express = require("express")
 const app = express()
 const sequelize = require('./db/connect')
+const cors = require('cors');
 
 // routers
 const authRouter = require('./user/routes/auth.router');
 const userRouter = require('./user/routes/user.router');
+const envelopRouter = require('./envelop/routes/envelop.router')
+const userAccountRouter = require('./user-account/routes/acount.router')
+const spendingRouter = require('./spending/routes/spending.router')
+const userSalaryRouter = require('./user-salary/routes/salary.router')
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found')
 const errorHandlerMiddleware = require('./middleware/error-handler')
 
+app.use(cors())
 app.use(express.json())
 
 app.get('/', (req, res) => {
   res.send("Welcome to budget-planner")
 })
 
-app.use('/api/v1/budget-planner', authRouter)
-app.use('/api/v1/budget-planner', userRouter)
+app.use('/api/v1/budget-planner', authRouter, userRouter, envelopRouter, 
+  userAccountRouter, spendingRouter, userSalaryRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)

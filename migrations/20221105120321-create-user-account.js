@@ -1,11 +1,11 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('envelops', {
+    await queryInterface.createTable('userAccounts', {
       id: {
-        primaryKey: true,
-        type: Sequelize.UUID,
         allowNull: false,
+        primaryKey: true,
+        type: Sequelize.UUID
       },
       createdAt: {
         allowNull: false,
@@ -23,10 +23,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      amount: {
-        type: Sequelize.DECIMAL,
-        allowNull: false,
-      },
       userId: {
         type: Sequelize.UUID,
         allowNull: false,
@@ -37,20 +33,13 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE"
       },
-      salaryId: {
-        type: Sequelize.UUID,
+      amount: {
+        type: Sequelize.DECIMAL,
         allowNull: false,
-        references: {
-          model: "usersalaries",
-          key: "id"
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE"
       },
     });
-
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('envelops');
+    await queryInterface.dropTable('userAccounts');
   }
 };

@@ -6,7 +6,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class envelop extends Model {
+  class spending extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -14,21 +14,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      envelop.hasMany(models.spending, { foreignKey: 'envelopId' })
+      spending.belongsTo(models.envelop)
     }
   }
-  envelop.init({
-    name: DataTypes.STRING,
+  spending.init({
     userId: DataTypes.UUID,
-    salaryId: DataTypes.UUID,
+    envelopId: DataTypes.UUID,
+    payee: DataTypes.STRING,
     amount: DataTypes.DECIMAL,
+    spendingType: DataTypes.STRING,
+    date: DataTypes.DATEONLY,
   }, {
     sequelize,
-    modelName: 'envelop',
+    modelName: 'spending',
     paranoid: true,
   });
 
-  envelop.beforeCreate(enve => enve.id = v4());
+  spending.beforeCreate(spending => spending.id = v4());
 
-  return envelop;
+  return spending;
 };
