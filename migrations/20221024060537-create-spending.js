@@ -60,3 +60,4 @@ module.exports = {
     await queryInterface.dropTable('spendings');
   }
 };
+
