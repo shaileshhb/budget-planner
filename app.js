@@ -21,6 +21,7 @@ app.use(cors())
 app.use(express.json())
 
 app.get('/', (req, res) => {
+  console.log("inside / route");
   res.send("Welcome to budget-planner")
 })
 
