@@ -9,10 +9,10 @@
   },
   "production": {
     "username": "root",
-    "password": "AI45qyP0PnVA4MeX4IjM",
+    "password": "kNakTOrsraiYanOOb6GT",
     "database": "budget-planner",
-    "host": "containers-us-west-18.railway.app",
-    "port": 7332,
+    "host": "containers-us-west-138.railway.app",
+    "port": 5894,
     "dialect": "mysql"
   }
 }
