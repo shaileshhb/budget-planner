@@ -38,6 +38,9 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
         allowNull: false,
+        validate: {
+          is: /^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W\_]){1,})(?!.*\s).{8,20}$/
+        },
       },
       dateOfBirth: {
         type: Sequelize.STRING
@@ -56,7 +59,7 @@ module.exports = {
         defaultValue: false,
       }
     });
-    
+
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('users');

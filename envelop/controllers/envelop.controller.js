@@ -18,7 +18,7 @@ const addEnvelop = async (req, res) => {
     await doesUserExist(userId)
     await doesUserSalaryExist(userId, userEnvelop.salaryId)
 
-    const userEnvelopCount = await db.envelop.count({
+    const userEnvelopCount = await db.userEnvelop.count({
       where: {
         userId: userId,
       }
@@ -32,7 +32,7 @@ const addEnvelop = async (req, res) => {
 
     await doesEnvelopNameExist(userEnvelop.name)
 
-    await db.envelop.create(userEnvelop, { transaction: transaction })
+    await db.userEnvelop.create(userEnvelop, { transaction: transaction })
     await transaction.commit()
 
     res.status(StatusCodes.CREATED).json(null)
@@ -62,7 +62,7 @@ const updateEnvelop = async (req, res) => {
     await doesUserExist(userId)
     await doesUserSalaryExist(userId, userEnvelop.salaryId)
 
-    const findEnvelop = await db.envelop.findOne({
+    const findEnvelop = await db.userEnvelop.findOne({
       where: {
         id: envelopId
       }
@@ -76,7 +76,7 @@ const updateEnvelop = async (req, res) => {
 
     await doesEnvelopNameExist(userEnvelop.name)
 
-    await db.envelop.update(userEnvelop, {
+    await db.userEnvelop.update(userEnvelop, {
       where: {
         id: envelopId
       },
@@ -104,7 +104,7 @@ const deleteEnvelop = async (req, res) => {
 
     await doesUserExist(userId)
 
-    const findEnvelop = await db.envelop.findOne({
+    const findEnvelop = await db.userEnvelop.findOne({
       where: {
         id: envelopId
       }
@@ -114,7 +114,7 @@ const deleteEnvelop = async (req, res) => {
       throw new CustomError.BadRequestError("Envelop not found")
     }
 
-    await db.envelop.destroy({
+    await db.userEnvelop.destroy({
       where: {
         id: envelopId,
       },
@@ -144,14 +144,14 @@ const getEnvelops = async (req, res) => {
 
     // var fromMonth = (fromDateMonth.getMonth()+ 1) < 10 ? '0' + (fromDateMonth.getMonth()+1) : (fromDateMonth.getMonth()+1);
 
-    const userEnvelops = await db.envelop.findAll({
+    const userEnvelops = await db.userEnvelop.findAll({
       where: query,
       order: [
         ['createdAt', 'ASC']
       ],
       include: [{
-        model: db.spending,
-        as: 'spendings',
+        model: db.userTransaction,
+        // as: 'userTransactions',
         required: false,
         where: {
           date: {
@@ -199,7 +199,7 @@ const doesUserSalaryExist = async (userId, salaryId) => {
 }
 
 const doesEnvelopNameExist = async (envelopName) => {
-  const findUserEnvelop = await db.envelop.findOne({
+  const findUserEnvelop = await db.userEnvelop.findOne({
     where: {
       name: envelopName
     }

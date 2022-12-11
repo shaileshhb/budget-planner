@@ -1,0 +1,10 @@
+salaryId: {
+  type: Sequelize.UUID,
+  allowNull: false,
+  references: {
+    model: "userSalaries",
+    key: "id"
+  },
+  onUpdate: "CASCADE",
+  onDelete: "CASCADE"
+},

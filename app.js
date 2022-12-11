@@ -10,7 +10,7 @@ const authRouter = require('./user/routes/auth.router');
 const userRouter = require('./user/routes/user.router');
 const envelopRouter = require('./envelop/routes/envelop.router')
 const userAccountRouter = require('./user-account/routes/acount.router')
-const spendingRouter = require('./spending/routes/spending.router')
+const spendingRouter = require('./transaction/routes/transaction.router')
 const userSalaryRouter = require('./user-salary/routes/salary.router')
 
 // error handler

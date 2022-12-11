@@ -5,7 +5,6 @@ const { v4 } = require('uuid');
 const {
   Model
 } = require('sequelize');
-const envelop = require('./envelop');
 module.exports = (sequelize, DataTypes) => {
   class user extends Model {
     /**
@@ -15,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      user.hasMany(models.envelop, { foreignKey: 'userId' })
-      user.hasMany(models.spending, { foreignKey: 'userId' })
-      user.hasMany(models.userAccount, { foreignKey: 'userId' })
+      // user.hasMany(models.envelop, { foreignKey: 'userId' })
+      // user.hasMany(models.spending, { foreignKey: 'userId' })
+      // user.hasMany(models.userAccount, { foreignKey: 'userId' })
     }
   }
   user.init({
@@ -35,7 +34,6 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'user',
     paranoid: true,
     tableName: 'users',
-    // underscored: true,
   });
 
   user.beforeCreate(user => user.id = v4());

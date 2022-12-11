@@ -1,0 +1,46 @@
+tables
+
+# users
+- master fields
+- name
+- username
+- email
+- password
+- dateOfBirth
+- gender
+- contact
+- isVerified
+- profileImage
+
+# userAccounts
+- master fields
+- amount
+- userId
+- name
+* CREATE MODEL -> npx sequelize-cli model:generate --name userAccount --attributes amount:integer,name:string
+
+# userSalaries
+- master fields
+- userId
+- accountId
+- salary
+- description
+* CREATE MODEL -> npx sequelize-cli model:generate --name userSalary --attributes salary:decimal,description:string,userId:uuid
+
+# userEnvelops
+- master fields
+- userId
+- accountId
+- name
+- amount
+* CREATE MODEL -> npx sequelize-cli model:generate --name userEnvelop --attributes userId:uuid,accountId:uuid,amount:decimal,name:string
+
+# userTransactions
+- master fields
+- userId
+- envelopId
+- payee
+- amount
+- date
+- transactionType (credit/debit)
+* CREATE MODEL -> npx sequelize-cli model:generate --name userTransaction --attributes userId:uuid,envelopId:uuid,payee:string,amount:decimal,date:date,transactionType:string

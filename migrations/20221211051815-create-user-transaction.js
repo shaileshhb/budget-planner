@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('userAccounts', {
+    await queryInterface.createTable('userTransactions', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -19,10 +19,6 @@ module.exports = {
         allowNull: true,
         type: Sequelize.DATE
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       userId: {
         type: Sequelize.UUID,
         allowNull: false,
@@ -31,15 +27,37 @@ module.exports = {
           key: "id"
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
+      },
+      envelopId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model: "userEnvelops",
+          key: "id"
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      payee: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       amount: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
+      date: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      transactionType: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('userAccounts');
+    await queryInterface.dropTable('userTransactions');
   }
 };

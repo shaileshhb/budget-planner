@@ -1,12 +1,11 @@
 'use strict';
-
 const { v4 } = require('uuid');
 
 const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class userAccount extends Model {
+  class userEnvelop extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -16,18 +15,20 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  userAccount.init({
-    name: DataTypes.STRING,
+  userEnvelop.init({
+    userId: DataTypes.UUID,
+    accountId: DataTypes.UUID,
+    envelopId: DataTypes.UUID,
     amount: DataTypes.DECIMAL,
-    userId: DataTypes.UUID
+    name: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'userAccount',
-    tableName: 'useraccounts',
+    modelName: 'userEnvelop',
     paranoid: true,
+    tableName: 'userEnvelops',
   });
 
-  userAccount.beforeCreate(userAccount => userAccount.id = v4());
+  userEnvelop.beforeCreate(userEnvelop => userEnvelop.id = v4());
 
-  return userAccount;
+  return userEnvelop;
 };

@@ -1,12 +1,11 @@
 'use strict';
-
 const { v4 } = require('uuid');
 
 const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class spending extends Model {
+  class userAccount extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -14,23 +13,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      spending.belongsTo(models.envelop)
     }
   }
-  spending.init({
-    userId: DataTypes.UUID,
-    envelopId: DataTypes.UUID,
-    payee: DataTypes.STRING,
+  userAccount.init({
     amount: DataTypes.DECIMAL,
-    spendingType: DataTypes.STRING,
-    date: DataTypes.DATEONLY,
+    name: DataTypes.STRING,
+    userId: DataTypes.UUID,
   }, {
     sequelize,
-    modelName: 'spending',
+    modelName: 'userAccount',
     paranoid: true,
+    tableName: 'userAccounts',
   });
 
-  spending.beforeCreate(spending => spending.id = v4());
+  userAccount.beforeCreate(userAccount => userAccount.id = v4());
 
-  return spending;
+  return userAccount;
 };

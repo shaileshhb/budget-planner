@@ -1,27 +1,26 @@
 const db = require("../../models/index")
 const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../../errors');
-const spending = require("../../models/spending");
 
-const addSpending = async (req, res) => {
+const addUserTransaction = async (req, res) => {
 
   const transaction = await db.sequelize.transaction()
 
   try {
     const userId = req.params.userId
-    const spending = req.body
+    const userTransaction = req.body
 
-    spending.userId = userId
+    userTransaction.userId = userId
 
-    await validateSpending(spending)
+    await validateUserTransaction(userTransaction)
 
-    if (!spending.date || spending.date === "") {
-      spending.date = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate()
+    if (!userTransaction.date || userTransaction.date === "") {
+      userTransaction.date = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate()
     }
 
-    console.log("date -> ", spending.date);
+    console.log("date -> ", userTransaction.date);
 
-    await db.spending.create(spending, { transaction: transaction })
+    await db.userTransaction.create(userTransaction, { transaction: transaction })
     await transaction.commit()
 
     res.status(StatusCodes.CREATED).json(null)
@@ -34,32 +33,32 @@ const addSpending = async (req, res) => {
   }
 }
 
-const updateSpending = async (req, res) => {
+const updateUserTransaction = async (req, res) => {
   const transaction = await db.sequelize.transaction()
 
   try {
     const userId = req.params.userId
-    const spendingId = req.params.spendingId
+    const userTransactionId = req.params.transactionId
 
-    const spending = req.body
-    spending.id = spendingId
-    spending.userId = userId
+    const userTransaction = req.body
+    userTransaction.id = userTransactionId
+    userTransaction.userId = userId
     
-    await validateSpending(spending)
+    await validateUserTransaction(userTransaction)
 
-    const findSpending = await db.spending.findOne({
+    const findUserTransaction = await db.userTransaction.findOne({
       where: {
-        id: spendingId,
+        id: userTransactionId,
       }
     })
 
-    if (!findSpending) {
+    if (!findUserTransaction) {
       throw new CustomError.BadRequestError("spending not found")
     }
 
-    await db.spending.update(spending, {
+    await db.userTransaction.update(userTransaction, {
       where: {
-        id: spendingId
+        id: userTransactionId
       },
       transaction: transaction,
     })
@@ -77,26 +76,26 @@ const updateSpending = async (req, res) => {
 
 }
 
-const deleteSpending = async (req, res) => {
+const deleteUserTransaction = async (req, res) => {
 
   const transaction = await db.sequelize.transaction()
 
   try {
-    const spendingId = req.params.spendingId
+    const userTransactionId = req.params.transactionId
 
-    const findSpending = await db.spending.findOne({
+    const findUserTransaction = await db.userTransaction.findOne({
       where: {
-        id: spendingId,
+        id: userTransactionId,
       }
     })
 
-    if (!findSpending) {
+    if (!findUserTransaction) {
       throw new CustomError.BadRequestError("spending not found")
     }
     
-    await db.spending.destroy({
+    await db.userTransaction.destroy({
       where: {
-        id: spendingId,
+        id: userTransactionId,
       }
     }, { transaction: transaction })
     await transaction.commit()
@@ -111,7 +110,7 @@ const deleteSpending = async (req, res) => {
   }
 }
 
-const validateSpending = async (spending) => {
+const validateUserTransaction = async (spending) => {
 
   await doesUserExist(spending.userId)
   await doesEnvelopExist(spending.envelopId)
@@ -146,7 +145,7 @@ const doesEnvelopExist = async (envelopId) => {
   }
 }
 
-const getSpendings = async (req, res) => {
+const getUserTransaction = async (req, res) => {
   
   const transaction = await db.sequelize.transaction();
 
@@ -154,7 +153,7 @@ const getSpendings = async (req, res) => {
     const query = req.query
     console.log(query);
 
-    const spendings = await db.spending.findAll({
+    const userTransactions = await db.userTransaction.findAll({
       where: query,
       order: [
         ['createdAt', 'DESC']
@@ -162,7 +161,7 @@ const getSpendings = async (req, res) => {
     })
 
     await transaction.commit()
-    res.status(StatusCodes.OK).json(spendings)
+    res.status(StatusCodes.OK).json(userTransactions)
 
   } catch (error) {
     console.error(error);
@@ -173,8 +172,8 @@ const getSpendings = async (req, res) => {
 }
 
 module.exports = {
-  addSpending,
-  updateSpending,
-  deleteSpending,
-  getSpendings,
+  addUserTransaction,
+  updateUserTransaction,
+  deleteUserTransaction,
+  getUserTransaction,
 }

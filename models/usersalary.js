@@ -1,4 +1,6 @@
 'use strict';
+const { v4 } = require('uuid');
+
 const {
   Model
 } = require('sequelize');
@@ -15,13 +17,17 @@ module.exports = (sequelize, DataTypes) => {
   }
   userSalary.init({
     userId: DataTypes.UUID,
-    accountId: DataTypes.UUID,
+    userAccountId: DataTypes.UUID,
     salary: DataTypes.DECIMAL,
-    salaryType: DataTypes.STRING
+    description: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'userSalary',
     paranoid: true,
+    tableName: 'userSalaries',
   });
+
+  userSalary.beforeCreate(userSalary => userSalary.id = v4());
+
   return userSalary;
 };
