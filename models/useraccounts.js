@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      userAccount.hasMany(models.userEnvelop, { foreignKey: 'accountId' })
+      userAccount.hasMany(models.userSalary, { foreignKey: 'accountId' })
     }
   }
   userAccount.init({

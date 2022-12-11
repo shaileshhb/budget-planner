@@ -13,12 +13,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      userEnvelop.hasMany(models.userTransaction, { foreignKey: 'envelopId' })
     }
   }
   userEnvelop.init({
     userId: DataTypes.UUID,
     accountId: DataTypes.UUID,
-    envelopId: DataTypes.UUID,
     amount: DataTypes.DECIMAL,
     name: DataTypes.STRING
   }, {

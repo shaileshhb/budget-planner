@@ -52,7 +52,7 @@ const registerUser = async (req, res) => {
 
 const verifyUser = async (req, res) => {
   const { k } = req.query
-
+  
   if (!k) {
     throw new CustomError.BadRequestError("Invalid link.")
   }

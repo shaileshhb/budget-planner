@@ -15,6 +15,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE
+      },
       userId: {
         type: Sequelize.UUID,
         allowNull: false,
@@ -31,17 +35,6 @@ module.exports = {
         allowNull: false,
         references: {
           model: "userAccounts",
-          key: "id"
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      },
-      envelopId: {
-        type: Sequelize.UUID,
-        type: Sequelize.UUID,
-        allowNull: false,
-        references: {
-          model: "userEnvelops",
           key: "id"
         },
         onUpdate: "CASCADE",

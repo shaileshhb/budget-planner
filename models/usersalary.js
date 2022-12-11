@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   userSalary.init({
     userId: DataTypes.UUID,
-    userAccountId: DataTypes.UUID,
+    accountId: DataTypes.UUID,
     salary: DataTypes.DECIMAL,
     description: DataTypes.STRING,
   }, {
