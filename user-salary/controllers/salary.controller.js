@@ -126,6 +126,10 @@ const getUserSalaries = async (req, res) => {
 
     const userSalaries = await db.userSalary.findAll({
       where: query,
+      include: [{
+        model: db.userAccount,
+        as: "account",
+      }],
       order: [
         ['createdAt', 'ASC']
       ],

@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      userSalary.belongsTo(models.userAccount, { as: 'account' })
+
     }
   }
   userSalary.init({
