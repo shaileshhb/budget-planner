@@ -22,6 +22,7 @@ SEQUELIZE
     - Use model:generate command. This command requires two options:
       - name: the name of the model;
       - attributes: the list of model attributes
+      - underscored: creates underscored column names
   
   - RUNNING MIGRATIONS
     - command

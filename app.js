@@ -36,6 +36,8 @@ const PORT = process.env.PORT || 3000
 const startApp = async () => {
   try {
     await sequelize.authenticate();
+    console.log(sequelize.models);
+
     console.log('DB connected successfully.');
     app.listen(PORT, console.log(`Server started at port ${PORT}`))
   } catch (err) {

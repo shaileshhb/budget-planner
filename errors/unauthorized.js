@@ -4,7 +4,7 @@ const CustomError = require('./custom-error');
 class UnauthorizedError extends CustomError {
   constructor(message) {
     super(message);
-    this.statusCode = StatusCodes.FORBIDDEN;
+    this.statusCode = StatusCodes.UNAUTHORIZED;
   }
 }
 

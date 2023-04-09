@@ -31,7 +31,6 @@ module.exports = {
       },
       accountId: {
         type: Sequelize.UUID,
-        type: Sequelize.UUID,
         allowNull: false,
         references: {
           model: "userAccounts",
